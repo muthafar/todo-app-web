@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { TodoItemContainer, DeleteButton, WrapperDiv } from "./styled";
 
 const TodoItem = ({

@@ -22,7 +22,7 @@ axios.interceptors.request.use((config) => {
 function App() {
   const [authUser, setAuthUser] = useState(localStorage.getItem("token"));
   const [authError, setAuthError] = useState("");
-  const [signOutM, setSignOutM] = useState("");
+
   const history = useHistory();
 
   const handleSignInSubmit = async (e, username, password) => {
@@ -31,7 +31,7 @@ function App() {
       const { data } = await signIn(username, password);
       setAuthUser(data.token);
       setAuthError("");
-      setSignOutM("");
+
       localStorage.setItem("token", data.token);
 
       history.push("/todos");
@@ -46,7 +46,7 @@ function App() {
       const { data } = await signUp(email, username, password);
       setAuthUser(data.token);
       setAuthError("");
-      setSignOutM("");
+
       localStorage.setItem("token", data.token);
 
       history.push("/todos");
@@ -68,7 +68,7 @@ function App() {
         <Route
           path="/signin"
           exact
-          render={props => (
+          render={(props) => (
             <SignInScreen
               {...props}
               handleSignInSubmit={handleSignInSubmit}
@@ -79,7 +79,7 @@ function App() {
         <Route
           path="/signup"
           exact
-          render={props => (
+          render={(props) => (
             <SignUpScreen
               {...props}
               error={authError}
@@ -91,7 +91,7 @@ function App() {
         <Route
           path="/todos"
           exact
-          render={props =>
+          render={(props) =>
             authUser ? (
               <Home {...props} />
             ) : (
