@@ -1,7 +1,12 @@
 import "./App.css";
 import React, { useState } from "react";
 import axios from "axios";
-import { Router, Route, Redirect, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
 import Home from "./components/Home";
 import Header from "./components/Header";
 import LandingScreen from "./screens/LandingScreen";
@@ -20,10 +25,9 @@ axios.interceptors.request.use((config) => {
 });
 
 function App() {
+  let history = useHistory();
   const [authUser, setAuthUser] = useState(localStorage.getItem("token"));
   const [authError, setAuthError] = useState("");
-
-  const history = useHistory();
 
   const handleSignInSubmit = async (e, username, password) => {
     e.preventDefault();
