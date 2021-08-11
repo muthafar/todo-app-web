@@ -1,54 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { Form, Field } from "react-final-form";
+import { AuthContext } from "../contexts.js/AuthContext";
 
-const SignInScreen = props => {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-
-  const renderError = () => {
+const SignInScreen = (props) => {
+  const { handleSignInSubmit } = useContext(AuthContext);
+  const renderInput = ({ input, label, meta }) => {
     return (
-      <div className="alert alert-danger">
-        <strong>{props.error}</strong>
+      <div className="mb-3">
+        <label className="form-label">{label}</label>
+        <input
+          className="form-control"
+          {...input}
+          type={input.name === "password" ? "password" : "text"}
+        />
+        {meta.touched && meta.error ? (
+          <span className="text-danger">{meta.error}</span>
+        ) : (
+          ""
+        )}
       </div>
     );
   };
 
   return (
-    <>
-      {props.error ? renderError() : ""}
-      <form
-        onSubmit={e => {
-          props.handleSignInSubmit(e, username, password);
-        }}
-        className="form-group"
-      >
-        <div className="mt-3">
-          <label className="form-label">Username:</label>
-          <input
-            value={username}
-            onChange={e => {
-              setUserName(e.target.value);
-            }}
-            type="text"
-            className="form-control"
-          />
-        </div>
-        <div className="mt-3">
-          <label className="form-label">Password:</label>
-          <input
-            value={password}
-            onChange={e => {
-              setPassword(e.target.value);
-            }}
-            type="password"
-            className="form-control"
-          />
-        </div>
-        <div className="mt-3">
-          <button className="btn btn-primary ">Sign In</button>
-        </div>
-      </form>
-    </>
+    <div>
+      <Form onSubmit={handleSignInSubmit} validate={validate}>
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field label="Username" name="username" component={renderInput} />
+            <Field label="Password" name="password" component={renderInput} />
+            <button className="btn btn-primary">Submit</button>
+          </form>
+        )}
+      </Form>
+    </div>
   );
+};
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.username) {
+    errors.username = "You must enter a username";
+  }
+  if (!values.password) {
+    errors.password = "You must enter a password";
+  }
+
+  return errors;
 };
 
 export default SignInScreen;

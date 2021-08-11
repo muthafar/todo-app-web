@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts.js/AuthContext";
 
-const Header = props => {
+const Header = (props) => {
+  const { authUser, handleSignoutClick } = useContext(AuthContext);
+
+  console.log(authUser);
   const renderLinks = () => {
-    if (props.authUser) {
+    if (authUser) {
       return (
         <li className="nav-item  ">
           <Link
-            onClick={() => {
-              props.handleSignoutClick();
-            }}
+            onClick={handleSignoutClick}
             to="/"
             className="nav-link "
             aria-current="page"
@@ -21,12 +23,12 @@ const Header = props => {
     } else {
       return [
         <li className="nav-item  ">
-          <Link to="/signin" className="nav-link " aria-current="page">
+          <Link to="/signin" className="nav-link ">
             Sign In
           </Link>
         </li>,
         <li className="nav-item  ">
-          <Link to="/signup" className="nav-link " aria-current="page">
+          <Link to="/signup" className="nav-link ">
             Sign UP
           </Link>
         </li>,
@@ -55,7 +57,7 @@ const Header = props => {
           className="collapse navbar-collapse d-flex justify-content-end"
           id="navbarNav"
         >
-          <ul className="navbar-nav   ">{renderLinks()}</ul>
+          <ul className="navbar-nav">{renderLinks()}</ul>
         </div>
       </div>
     </nav>
