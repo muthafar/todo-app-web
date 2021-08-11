@@ -3,7 +3,7 @@ import { Form, Field } from "react-final-form";
 import { AuthContext } from "../contexts.js/AuthContext";
 
 const SignInScreen = (props) => {
-  const { handleSignInSubmit } = useContext(AuthContext);
+  const { handleSignInSubmit, authError } = useContext(AuthContext);
   const renderInput = ({ input, label, meta }) => {
     return (
       <div className="mb-3">
@@ -24,6 +24,7 @@ const SignInScreen = (props) => {
 
   return (
     <div>
+      {authError ? <span className="text-danger">{authError}</span> : ""}
       <Form onSubmit={handleSignInSubmit} validate={validate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>

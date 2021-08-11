@@ -31,7 +31,8 @@ export const AuthProvider = ({ children }) => {
       setAuthUser(localStorage.getItem("token"));
       history.push("/todos");
     } catch (err) {
-      setAuthError(err.response.statusText);
+      err.response.data = "Invalid username or password";
+      setAuthError(err.response.data);
     }
   };
   const handleSignoutClick = () => {
